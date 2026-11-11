@@ -23,7 +23,7 @@ export default function Preloader({ onDone }) {
 
   useEffect(() => {
     let cancelled = false
-    const duration = fast ? 0.7 : 2.1
+    const duration = fast ? 0.5 : 1.3
     const counter = animate(0, 100, {
       duration,
       ease: [0.65, 0, 0.35, 1],
@@ -57,9 +57,9 @@ export default function Preloader({ onDone }) {
           className="preloader"
           role="status"
           aria-label="Loading portfolio"
-          initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-          exit={{ clipPath: 'inset(0% 0% 100% 0%)' }}
-          transition={{ duration: 1, ease: EASE_IO }}
+          initial={{ transform: 'translateY(0%)' }}
+          exit={{ transform: 'translateY(-100%)' }}
+          transition={{ duration: 0.85, ease: EASE_IO }}
         >
           <div className="preloader__top mono">
             <span>Portfolio</span>
@@ -72,7 +72,7 @@ export default function Preloader({ onDone }) {
                 d={d}
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: fast ? 0.5 : 1.4, delay: (fast ? 0.03 : 0.12) * k, ease: [0.65, 0, 0.35, 1] }}
+                transition={{ duration: fast ? 0.4 : 0.9, delay: (fast ? 0.02 : 0.06) * k, ease: [0.65, 0, 0.35, 1] }}
               />
             ))}
           </svg>
@@ -80,7 +80,7 @@ export default function Preloader({ onDone }) {
             className="preloader__name"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: fast ? 0.1 : 0.5 }}
+            transition={{ duration: 0.6, delay: fast ? 0.05 : 0.25 }}
           >
             Suzan Aboul Hesn <em>— Architect</em>
           </motion.p>

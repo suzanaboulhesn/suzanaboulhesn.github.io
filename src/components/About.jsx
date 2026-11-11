@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import {
   motion,
   useAnimationFrame,
+  useInView,
   useMotionValue,
   useScroll,
   useSpring,
@@ -14,6 +15,8 @@ import { Eyebrow, Pic, Reveal, SplitWords } from './primitives'
 
 /** Infinite ticker whose speed and direction follow scroll velocity. */
 export function Marquee({ items, baseVelocity = -2.2 }) {
+  const box = useRef(null)
+  const visible = useInView(box, { margin: '120px 0px' })
   const baseX = useMotionValue(0)
   const { scrollY } = useScroll()
   const velocity = useVelocity(scrollY)
@@ -23,6 +26,7 @@ export function Marquee({ items, baseVelocity = -2.2 }) {
   const dir = useRef(1)
 
   useAnimationFrame((_, delta) => {
+    if (!visible) return // don't spend frames on it while it's off screen
     let move = dir.current * baseVelocity * (delta / 1000)
     const f = factor.get()
     if (f < 0) dir.current = -1
@@ -32,7 +36,7 @@ export function Marquee({ items, baseVelocity = -2.2 }) {
   })
 
   return (
-    <div className="marquee" aria-hidden="true">
+    <div className="marquee" aria-hidden="true" ref={box}>
       <motion.div className="marquee__track" style={{ x }}>
         {[0, 1].map((r) => (
           <div className="marquee__group" key={r}>
@@ -56,23 +60,20 @@ export default function About() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const imgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
   const archY = useTransform(scrollYProgress, [0, 1], ['6%', '-6%'])
+  const portrait = useRef(null)
+  const seen = useInView(portrait, { once: true, margin: '0px 0px -15% 0px' })
 
   return (
     <section className="about section" id="about" ref={ref}>
       <div className="about__grid">
         <div className="about__figure">
           <motion.div className="about__arch-line" style={{ y: archY }} aria-hidden="true" />
-          <motion.div
-            className="about__portrait"
-            initial={{ clipPath: 'inset(100% 0% 0% 0% round 999px 999px 0 0)' }}
-            whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 999px 999px 0 0)' }}
-            viewport={{ once: true, margin: '0px 0px -15% 0px' }}
-            transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-          >
+          <div className={`about__portrait reveal-pic ${seen ? 'is-in' : ''}`} ref={portrait}>
             <motion.div style={{ y: imgY }} className="about__portrait-img">
               <Pic image={PROFILE.portrait} sizes="(min-width: 900px) 36vw, 90vw" />
             </motion.div>
-          </motion.div>
+            <span className="reveal-pic__cover" aria-hidden="true" />
+          </div>
           <p className="about__caption mono">{PROFILE.city} · {PROFILE.degree}</p>
         </div>
 

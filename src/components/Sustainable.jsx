@@ -57,10 +57,10 @@ export default function Sustainable() {
               <motion.button
                 key={active}
                 className={`explorer__img ${s.image.kind === 'drawing' ? 'is-drawing' : ''}`}
-                initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 1.02, filter: 'blur(8px)' }}
-                transition={{ duration: 0.45, ease: EASE }}
+                initial={{ opacity: 0, transform: 'scale(0.97)' }}
+                animate={{ opacity: 1, transform: 'scale(1)' }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35, ease: EASE }}
                 onClick={() => openLightbox(STRATEGIES.map((x) => x.image), active)}
                 data-cursor="Zoom"
                 aria-label={`Enlarge: ${s.image.caption}`}
@@ -127,13 +127,15 @@ export default function Sustainable() {
               onClick={() => openLightbox(COMMUNITY, k)}
               data-cursor="View"
               aria-label={`Enlarge: ${c.caption}`}
-              initial={{ opacity: 0, y: 50, rotate: k % 2 ? 8 : -8 }}
-              whileInView={{ opacity: 1, y: 0, rotate: k % 2 ? 2 : -2 }}
-              whileHover={{ y: -12, rotate: 0, scale: 1.05, transition: { duration: 0.35, ease: EASE } }}
+              style={{ '--tilt': `${k % 2 ? 2 : -2}deg` }}
+              initial={{ opacity: 0, transform: 'translateY(40px)' }}
+              whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
               viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-              transition={{ duration: 0.9, ease: EASE, delay: k * 0.07 }}
+              transition={{ duration: 0.8, ease: EASE, delay: k * 0.06 }}
             >
-              <Pic image={c} sizes="(min-width: 900px) 15vw, 42vw" />
+              <span className="vignette__art">
+                <Pic image={c} sizes="(min-width: 900px) 15vw, 42vw" />
+              </span>
             </motion.button>
           ))}
         </div>

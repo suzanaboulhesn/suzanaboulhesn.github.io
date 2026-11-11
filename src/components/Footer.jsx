@@ -8,19 +8,24 @@ export default function Footer() {
   const scrollTo = useScrollTo()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] })
   const y = useTransform(scrollYProgress, [0, 1], ['40%', '0%'])
-  const spread = useTransform(scrollYProgress, [0, 1], ['-0.06em', '-0.03em'])
 
   return (
     <footer className="footer" ref={ref}>
       <div className="footer__row">
         <span className="mono">© {new Date().getFullYear()} {PROFILE.name}</span>
-        <span className="mono">Selected projects 2014 — 2025</span>
+        <span className="mono footer__social">
+          {PROFILE.social.map((s) => (
+            <a key={s.label} href={s.url} target="_blank" rel="noopener me">
+              {s.label}
+            </a>
+          ))}
+        </span>
         <button className="mono footer__top" onClick={() => scrollTo('top')}>
           Back to top ↑
         </button>
       </div>
       <div className="footer__mark-wrap" aria-hidden="true">
-        <motion.p className="footer__mark" style={{ y, letterSpacing: spread }}>
+        <motion.p className="footer__mark" style={{ y }}>
           Suzan <em>Aboul Hesn</em>
         </motion.p>
       </div>

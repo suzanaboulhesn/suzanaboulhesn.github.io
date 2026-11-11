@@ -1,6 +1,5 @@
-import { motion } from 'motion/react'
+import { motion, useInView, useMotionValue, useSpring } from 'motion/react'
 import { useRef } from 'react'
-import { useMotionValue, useSpring } from 'motion/react'
 import { srcSet } from '../data/projects'
 import { EASE } from '../ui'
 
@@ -95,27 +94,23 @@ export function Pic({ image, sizes = '100vw', className, alt, eager = false, ...
 
 /** Image that wipes in from the bottom with a slow settle. */
 export function RevealPic({ image, sizes, className = '', onClick, cursor = 'View' }) {
-  const Comp = onClick ? motion.button : motion.div
+  // A paper-coloured cover slides away and the image settles — both pure CSS transform transitions
+  // (compositor-only), triggered once when the image scrolls into view.
+  const ref = useRef(null)
+  const seen = useInView(ref, { once: true, margin: '0px 0px -10% 0px' })
+  const Comp = onClick ? 'button' : 'div'
   return (
     <Comp
-      className={`reveal-pic ${className}`}
+      ref={ref}
+      className={`reveal-pic ${seen ? 'is-in' : ''} ${className}`}
       onClick={onClick}
       data-cursor={onClick ? cursor : undefined}
       aria-label={onClick ? `Enlarge: ${image.caption}` : undefined}
-      initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
-      whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-      transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
     >
-      <motion.span
-        className="reveal-pic__inner"
-        initial={{ scale: 1.25 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-        transition={{ duration: 1.6, ease: EASE }}
-      >
+      <span className="reveal-pic__inner">
         <Pic image={image} sizes={sizes} />
-      </motion.span>
+      </span>
+      <span className="reveal-pic__cover" aria-hidden="true" />
     </Comp>
   )
 }

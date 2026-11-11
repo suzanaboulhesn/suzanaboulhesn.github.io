@@ -43,9 +43,14 @@ export const PROFILE = {
   university: 'Notre Dame University – Louaize',
   pdf: `${BASE}Suzan-Aboul-Hesn-Portfolio.pdf`,
   portrait: { ...img('about/portrait', 'Suzan Aboul Hesn'), alt: 'Portrait of Suzan Aboul Hesn, architect in Abu Dhabi' },
-  // Other public profiles (LinkedIn, Behance, Instagram…) — add them here; they feed the structured data.
-  sameAs: ['https://github.com/suzanaboulhesn'],
+  // Public profiles — shown in Contact/footer and fed to the structured data (sameAs).
+  social: [
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/suzan-aboul-hesn-71117a446' },
+    { label: 'Instagram', handle: '@suzan_green_designs', url: 'https://www.instagram.com/suzan_green_designs' },
+    { label: 'GitHub', url: 'https://github.com/suzanaboulhesn' },
+  ],
 }
+PROFILE.sameAs = PROFILE.social.map((s) => s.url)
 
 export const STATEMENT =
   'I design places that hold their ground — stone houses that step down Lebanese hillsides, and stages built for Abu Dhabi’s biggest nights. Every project starts as a hand sketch and ends as an image you can almost walk into.'

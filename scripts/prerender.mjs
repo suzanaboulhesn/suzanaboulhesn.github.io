@@ -120,7 +120,7 @@ ${section('concept', 'Conceptual work', byCat('concept'))}
 <h3>Education</h3><ul>${EDUCATION.map((e) => `<li>${e.year} — ${esc(e.title)}, ${esc(e.place)}</li>`).join('')}</ul>
 <h3>Capabilities</h3><p>${CAPABILITIES.map(esc).join(' · ')}</p>
 <h3>Tools</h3><p>${TOOLS.map(esc).join(' · ')}</p></section>
-<section id="contact"><h2>Contact</h2><p>Email: <a href="mailto:${PROFILE.email}">${PROFILE.email}</a></p><p>Based in ${PROFILE.city}, ${PROFILE.country}.</p><p><a href="${PROFILE.pdf}">Download the full PDF portfolio</a></p></section>
+<section id="contact"><h2>Contact</h2><p>Email: <a href="mailto:${PROFILE.email}">${PROFILE.email}</a></p><p>Based in ${PROFILE.city}, ${PROFILE.country}.</p><p>${PROFILE.social.map((s) => `<a href="${s.url}" rel="me">${s.label}${s.handle ? ` (${s.handle})` : ''}</a>`).join(' · ')}</p><p><a href="${PROFILE.pdf}">Download the full PDF portfolio</a></p></section>
 </main>
 ${footer}
 </div>`
@@ -244,6 +244,7 @@ write(
 - Email: ${PROFILE.email}
 - Location: ${PROFILE.city}, ${PROFILE.country}
 - Full PDF portfolio: ${abs(PROFILE.pdf)}
+${PROFILE.social.map((s) => `- ${s.label}: ${s.url}${s.handle ? ` (${s.handle})` : ''}`).join('\n')}
 
 ## Key facts
 
@@ -286,7 +287,7 @@ Concept design, plans, shop drawings, 3D models and photorealistic renderings �
 ${TOOLS.filter((t) => t !== 'Hand sketching').join(', ')}.
 
 ### How can I contact her?
-Email ${PROFILE.email}. She is based in ${PROFILE.city}, ${PROFILE.country}.
+Email ${PROFILE.email}, or reach her on LinkedIn (${PROFILE.social[0].url}). She is based in ${PROFILE.city}, ${PROFILE.country}.
 `,
 )
 

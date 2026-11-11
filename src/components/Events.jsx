@@ -18,15 +18,8 @@ export default function Events() {
     document.documentElement.dataset.mode = inView ? 'dark' : 'light'
   }, [inView])
 
-  const spot = (e) => {
-    const r = ref.current.getBoundingClientRect()
-    ref.current.style.setProperty('--mx', `${e.clientX - r.left}px`)
-    ref.current.style.setProperty('--my', `${e.clientY - r.top}px`)
-  }
-
   return (
-    <section className="events section" id="events" ref={ref} onPointerMove={spot}>
-      <div className="events__spot" aria-hidden="true" />
+    <section className="events section" id="events" ref={ref}>
       <header className="events__head">
         <Eyebrow n="03">Exhibition & Events</Eyebrow>
         <h2 className="display">
@@ -34,7 +27,7 @@ export default function Events() {
         </h2>
         <Reveal as="p" className="events__intro" delay={0.2}>
           Booths, stages, majlis and ceremonies for Abu Dhabi institutions — designed in AutoCAD and Rhino and brought to life in
-          Lumion, 3ds Max and V-Ray. Hover to open the curtains.
+          Lumion, 3ds Max and V-Ray. Hover a panel to bring it forward.
         </Reveal>
       </header>
 

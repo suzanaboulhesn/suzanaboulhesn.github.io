@@ -57,9 +57,9 @@ function Body({ project: p, scroller }) {
           <motion.div
             className="sheet__hero-img"
             style={{ y: heroY, scale: heroScale }}
-            initial={{ clipPath: 'inset(12% 8% 12% 8%)' }}
-            animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-            transition={{ duration: 1.2, ease: EASE_IO, delay: 0.25 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
           >
             <Pic image={p.images[0]} sizes="100vw" eager />
           </motion.div>
@@ -187,10 +187,10 @@ export default function ProjectSheet({ project }) {
       role="dialog"
       aria-modal="true"
       aria-label={project.title}
-      initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
-      animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-      exit={{ clipPath: 'inset(0% 0% 100% 0%)' }}
-      transition={{ duration: 0.95, ease: EASE_IO }}
+      initial={{ transform: 'translateY(100%)' }}
+      animate={{ transform: 'translateY(0%)' }}
+      exit={{ transform: 'translateY(100%)' }}
+      transition={{ duration: 0.8, ease: EASE_IO }}
     >
       <div className="sheet__bar">
         <button ref={closeBtn} className="sheet__close" onClick={closeProject} data-cursor="Close">

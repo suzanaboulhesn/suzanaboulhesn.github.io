@@ -70,6 +70,20 @@ export default function Contact() {
               {PROFILE.city}, UAE — <span className="mono">{time} local time</span>
             </p>
           </Reveal>
+          <Reveal delay={0.24}>
+            <p className="mono contact__label">Elsewhere</p>
+            <p className="contact__social">
+              {PROFILE.social
+                .filter((s) => s.label !== 'GitHub')
+                .map((s) => (
+                  <a key={s.label} href={s.url} target="_blank" rel="noopener me" className="contact__link">
+                    {s.label}
+                    {s.handle && <span className="mono">{s.handle}</span>}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                ))}
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>

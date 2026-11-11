@@ -1,14 +1,18 @@
 import { useEffect, useRef } from 'react'
-import { animate, motion, useInView, useScroll, useTransform } from 'motion/react'
+import { animate, motion, useInView } from 'motion/react'
 import { Eyebrow, Reveal } from './primitives'
 import { PROJECTS, STATEMENT as TEXT } from '../data/projects'
 const EMPHASIS = new Set(['ground', 'hillsides,', 'nights.', 'sketch'])
 
-function Word({ children, progress, range }) {
-  const opacity = useTransform(progress, range, [0.14, 1])
-  const em = EMPHASIS.has(children)
+// Words light up once, staggered, when the paragraph enters — no work on every scroll frame.
+const WORD = {
+  hidden: { opacity: 0.14 },
+  shown: (k) => ({ opacity: 1, transition: { duration: 0.5, delay: 0.15 + k * 0.035, ease: 'easeOut' } }),
+}
+
+function Word({ children, k }) {
   return (
-    <motion.span className={em ? 'statement__em' : undefined} style={{ opacity }}>
+    <motion.span className={EMPHASIS.has(children) ? 'statement__em' : undefined} variants={WORD} custom={k}>
       {children}{' '}
     </motion.span>
   )
@@ -46,20 +50,23 @@ const STATS = [
 ]
 
 export default function Statement() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.45'] })
   const words = TEXT.split(' ')
   return (
     <section className="statement section" id="statement">
       <div className="statement__grid">
         <Eyebrow n="01">Approach</Eyebrow>
-        <p className="statement__text" ref={ref}>
+        <motion.p
+          className="statement__text"
+          initial="hidden"
+          whileInView="shown"
+          viewport={{ once: true, margin: '0px 0px -25% 0px' }}
+        >
           {words.map((w, k) => (
-            <Word key={k} progress={scrollYProgress} range={[k / words.length, (k + 1) / words.length]}>
+            <Word key={k} k={k}>
               {w}
             </Word>
           ))}
-        </p>
+        </motion.p>
       </div>
       <div className="stats">
         {STATS.map((s, k) => (

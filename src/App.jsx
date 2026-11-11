@@ -7,7 +7,6 @@ import { applyHead } from './seo'
 import Preloader from './components/Preloader'
 import Cursor from './components/Cursor'
 import Nav from './components/Nav'
-import ScrollRuler from './components/ScrollRuler'
 import Hero from './components/Hero'
 import Statement from './components/Statement'
 import Residences from './components/Residences'
@@ -88,13 +87,12 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <ReactLenis root options={reduced ? { lerp: 1, smoothWheel: false } : { lerp: 0.085, wheelMultiplier: 1 }}>
+      <ReactLenis root options={reduced ? { lerp: 1, smoothWheel: false } : { lerp: 0.13, wheelMultiplier: 1 }}>
         <UIContext.Provider value={ui}>
           <ScrollLock locked={!!project || !ready} />
           <Preloader onDone={() => setReady(true)} />
           <Cursor />
           <Nav />
-          <ScrollRuler />
 
           <main id="main" aria-hidden={project ? true : undefined}>
             <Hero />

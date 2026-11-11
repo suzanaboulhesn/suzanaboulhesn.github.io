@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
+import { AnimatePresence, motion, useInView, useMotionValue, useScroll, useTransform } from 'motion/react'
 import { HERO_SLIDES, PROFILE, srcSet } from '../data/projects'
 import { useMedia, pad } from '../hooks'
 import { EASE, useUI } from '../ui'
@@ -12,8 +12,8 @@ const SLIDE_MS = 6500
 function Crosshair({ area, label }) {
   const x = useMotionValue(-100)
   const y = useMotionValue(-100)
-  const sx = useSpring(x, { stiffness: 600, damping: 40 })
-  const sy = useSpring(y, { stiffness: 600, damping: 40 })
+  const sx = x // follow the pointer exactly (no spring lag)
+  const sy = y
   const [on, setOn] = useState(false)
   const readout = useRef(null)
 
@@ -63,23 +63,32 @@ export default function Hero() {
   const slide = HERO_SLIDES[i]
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '22%'])
-  const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-35%'])
+  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
   const fade = useTransform(scrollYProgress, [0, 0.65], [1, 0])
-  const frame = useTransform(scrollYProgress, [0, 1], ['inset(0% 0% 0% 0%)', 'inset(6% 4% 0% 4%)'])
+
+  // Only cycle slides while the hero is on screen and the tab is visible.
+  const onScreen = useInView(ref, { margin: '0px 0px -30% 0px' })
+  const [tabVisible, setTabVisible] = useState(true)
+  useEffect(() => {
+    const sync = () => setTabVisible(document.visibilityState === 'visible')
+    document.addEventListener('visibilitychange', sync)
+    return () => document.removeEventListener('visibilitychange', sync)
+  }, [])
+  const playing = ready && onScreen && tabVisible
 
   useEffect(() => {
-    if (!ready) return
+    if (!playing) return
     const t = setTimeout(() => setI((v) => (v + 1) % HERO_SLIDES.length), SLIDE_MS)
     return () => clearTimeout(t)
-  }, [ready, i])
+  }, [playing, i])
 
   return (
-    <section className="hero" id="top" ref={ref} aria-label="Introduction">
-      <motion.div className="hero__frame" style={{ clipPath: frame }}>
-        <motion.div className="hero__media" style={{ y: mediaY, scale: mediaScale }}>
+    <section className={`hero ${playing ? '' : 'is-paused'}`} id="top" ref={ref} aria-label="Introduction">
+      <div className="hero__frame">
+        <motion.div className="hero__media" style={{ y: mediaY }}>
           <AnimatePresence initial={false}>
+            {/* slow zoom runs as a CSS animation (compositor), the crossfade as opacity */}
             <motion.img
               key={slide.image.key}
               src={slide.image.sm}
@@ -87,17 +96,17 @@ export default function Hero() {
               sizes="100vw"
               alt={`${slide.label}, ${slide.place}`}
               className="hero__img"
-              initial={{ opacity: 0, scale: 1.14 }}
-              animate={{ opacity: 1, scale: 1.02 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: 1.6, ease: 'easeInOut' }, scale: { duration: 9, ease: 'linear' } }}
+              transition={{ duration: 1.4, ease: 'easeInOut' }}
               draggable={false}
             />
           </AnimatePresence>
         </motion.div>
         <div className="hero__shade" />
         <div className="hero__grid" aria-hidden="true" />
-      </motion.div>
+      </div>
 
       {fine && <Crosshair area={ref} label={slide.label} />}
 
@@ -145,9 +154,7 @@ export default function Hero() {
               <span className="hero__slide-label">{s.label}</span>
               <span className="hero__slide-place mono">{s.place}</span>
               <span className="hero__bar" aria-hidden="true">
-                {k === i && ready && (
-                  <motion.i initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: SLIDE_MS / 1000, ease: 'linear' }} />
-                )}
+                {k === i && ready && <i key={i} style={{ animationDuration: `${SLIDE_MS}ms` }} />}
               </span>
             </button>
           </li>

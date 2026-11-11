@@ -117,6 +117,13 @@ export default function Nav() {
             </nav>
             <div className="menu__foot mono">
               <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+              <span className="menu__social">
+                {PROFILE.social.map((s) => (
+                  <a key={s.label} href={s.url} target="_blank" rel="noopener me">
+                    {s.label}
+                  </a>
+                ))}
+              </span>
               <span>Abu Dhabi — {time}</span>
             </div>
           </motion.div>

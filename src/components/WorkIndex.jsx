@@ -31,6 +31,38 @@ export default function WorkIndex() {
 
   const hp = hovered ? bySlug[hovered] : null
 
+  // The rows don't depend on which project is hovered (dimming is pure CSS),
+  // so moving across the list only re-renders the floating preview.
+  const rows = useMemo(
+    () =>
+      list.map((p, k) => (
+        <motion.li
+          key={p.slug}
+          initial={{ opacity: 0, transform: 'translateY(16px)' }}
+          animate={{ opacity: 1, transform: 'translateY(0px)' }}
+          transition={{ duration: 0.45, ease: EASE, delay: Math.min(k, 8) * 0.03 }}
+        >
+          <button className="wrow" onClick={() => openProject(p.slug)} onPointerEnter={() => fine && setHovered(p.slug)} data-cursor="View">
+            <span className="wrow__num mono">{pad(k + 1)}</span>
+            <span className="wrow__title">
+              {p.title}
+              {p.subtitle && <i> — {p.subtitle}</i>}
+            </span>
+            <span className="wrow__cat">{CATEGORIES[p.category]}</span>
+            <span className="wrow__loc">{p.location}</span>
+            <span className="wrow__year mono">{p.year}</span>
+            <span className="wrow__thumb" aria-hidden="true">
+              <Pic image={p.cover} sizes="96px" alt="" />
+            </span>
+            <span className="wrow__arrow" aria-hidden="true">
+              ↗
+            </span>
+          </button>
+        </motion.li>
+      )),
+    [list, fine, openProject],
+  )
+
   return (
     <section className="windex section" id="index">
       <header className="windex__head">
@@ -58,6 +90,7 @@ export default function WorkIndex() {
       </div>
 
       <ul
+        key={filter}
         className="windex__list"
         onPointerMove={(e) => {
           // flip the preview to the left of the pointer near the right edge
@@ -67,40 +100,7 @@ export default function WorkIndex() {
         }}
         onPointerLeave={() => setHovered(null)}
       >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {list.map((p, k) => (
-            <motion.li
-              key={p.slug}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              transition={{ duration: 0.5, ease: EASE }}
-            >
-              <button
-                className={`wrow ${hovered && hovered !== p.slug ? 'is-dim' : ''}`}
-                onClick={() => openProject(p.slug)}
-                onPointerEnter={() => fine && setHovered(p.slug)}
-                data-cursor="View"
-              >
-                <span className="wrow__num mono">{pad(k + 1)}</span>
-                <span className="wrow__title">
-                  {p.title}
-                  {p.subtitle && <i> — {p.subtitle}</i>}
-                </span>
-                <span className="wrow__cat">{CATEGORIES[p.category]}</span>
-                <span className="wrow__loc">{p.location}</span>
-                <span className="wrow__year mono">{p.year}</span>
-                <span className="wrow__thumb" aria-hidden="true">
-                  <Pic image={p.cover} sizes="96px" alt="" />
-                </span>
-                <span className="wrow__arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </button>
-            </motion.li>
-          ))}
-        </AnimatePresence>
+        {rows}
       </ul>
 
       {fine && (
@@ -110,10 +110,10 @@ export default function WorkIndex() {
               <motion.div
                 key={hp.slug}
                 className="preview__card"
-                initial={{ opacity: 0, scale: 0.85, clipPath: 'inset(50% 50% 50% 50%)' }}
-                animate={{ opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.45, ease: EASE }}
+                initial={{ opacity: 0, transform: 'scale(0.9)' }}
+                animate={{ opacity: 1, transform: 'scale(1)' }}
+                exit={{ opacity: 0, transform: 'scale(0.96)' }}
+                transition={{ duration: 0.3, ease: EASE }}
               >
                 <Pic image={hp.cover} sizes="380px" alt="" />
                 <span className="preview__tag mono">
