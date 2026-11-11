@@ -20,7 +20,7 @@ export default function Contact() {
 
   return (
     <section className="contact section" id="contact">
-      <Eyebrow n="08">Contact</Eyebrow>
+      <Eyebrow n="09">Contact</Eyebrow>
       <h2 className="contact__title">
         <SplitWords text="Let’s design" />
         <br />

@@ -34,7 +34,7 @@ export default function WorkIndex() {
   return (
     <section className="windex section" id="index">
       <header className="windex__head">
-        <Eyebrow n="06">Index</Eyebrow>
+        <Eyebrow n="07">Index</Eyebrow>
         <h2 className="display">
           <SplitWords text="All" /> <em><SplitWords text="projects" delay={0.1} /></em>
         </h2>

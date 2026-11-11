@@ -13,3 +13,6 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+// The app's own preloader is on screen now; drop the static boot cover.
+requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('boot')?.remove()))

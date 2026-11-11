@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Relative base so the build works at https://suzanaboulhesn.github.io/ and under any sub-path.
+// Served from the root of https://suzanaboulhesn.github.io/ (project pages live at /projects/<slug>/).
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react()],
 })

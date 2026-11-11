@@ -14,7 +14,7 @@ export default function Concept() {
       <div className="concept__grid">
         <div className="concept__text">
           <div className="concept__sticky">
-            <Eyebrow n="04">Conceptual · {P.date}</Eyebrow>
+            <Eyebrow n="05">Conceptual · {P.date}</Eyebrow>
             <h2 className="display">
               <SplitWords text="Sawfar" /> <em><SplitWords text="Grand Hotel" delay={0.15} /></em>
             </h2>

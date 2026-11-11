@@ -84,7 +84,7 @@ export function Pic({ image, sizes = '100vw', className, alt, eager = false, ...
       sizes={sizes}
       width={image.w}
       height={image.h}
-      alt={alt ?? image.caption ?? ''}
+      alt={alt ?? image.alt ?? image.caption ?? ''}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
       draggable={false}

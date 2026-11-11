@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { animate, motion, useInView, useScroll, useTransform } from 'motion/react'
 import { Eyebrow, Reveal } from './primitives'
-import { PROJECTS } from '../data/projects'
-
-const TEXT =
-  'I design places that hold their ground — stone houses that step down Lebanese hillsides, and stages built for Abu Dhabi’s biggest nights. Every project starts as a hand sketch and ends as an image you can almost walk into.'
+import { PROJECTS, STATEMENT as TEXT } from '../data/projects'
 const EMPHASIS = new Set(['ground', 'hillsides,', 'nights.', 'sketch'])
 
 function Word({ children, progress, range }) {

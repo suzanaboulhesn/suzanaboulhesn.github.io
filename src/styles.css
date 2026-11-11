@@ -2481,3 +2481,291 @@ html[data-mode='dark'] .events__spot {
     transition: none;
   }
 }
+
+/* ── sustainable design (EBS 20) ────────────────────────────── */
+
+.sustain__head {
+  display: grid;
+  grid-template-columns: 7fr 4fr;
+  gap: 0 clamp(24px, 5vw, 96px);
+  align-items: end;
+}
+
+.sustain__head .eyebrow {
+  grid-column: 1 / -1;
+}
+
+.sustain__intro {
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+.sustain__kicker {
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.sustain__hero {
+  margin-top: clamp(40px, 7vh, 72px);
+}
+
+.sustain__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 40px);
+  margin: clamp(32px, 5vh, 56px) 0 0;
+}
+
+.sustain__fact {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.sustain__fact dt {
+  font-family: var(--serif);
+  font-size: clamp(44px, 5.2vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.sustain__fact dt small {
+  margin-left: 0.15em;
+  font-size: 0.32em;
+  vertical-align: top;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+.sustain__fact dd {
+  margin: 10px 0 0;
+  max-width: 26ch;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.explorer {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(28px, 5vw, 96px);
+  margin-top: clamp(72px, 12vh, 150px);
+  align-items: start;
+}
+
+.explorer__stage {
+  position: sticky;
+  top: 12vh;
+}
+
+.explorer__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.explorer__img {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.explorer__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.explorer__img.is-drawing {
+  padding: clamp(16px, 3vw, 40px);
+}
+
+.explorer__img.is-drawing img {
+  object-fit: contain;
+}
+
+.explorer__cap {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.explorer__cap span {
+  color: var(--accent);
+  margin-right: 6px;
+}
+
+.explorer__label {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.explorer__list li {
+  border-top: 1px solid var(--line);
+}
+
+.explorer__list li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.explorer__list button {
+  display: grid;
+  grid-template-columns: 36px 1fr 20px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+
+.explorer__list li.is-active button,
+.explorer__list button:hover {
+  color: var(--fg);
+}
+
+.explorer__list li.is-active .mono {
+  color: var(--accent);
+}
+
+.explorer__title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.1;
+}
+
+.explorer__plus {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  justify-self: end;
+}
+
+.explorer__plus::before,
+.explorer__plus::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.4s var(--ease);
+}
+
+.explorer__plus::after {
+  transform: rotate(90deg);
+}
+
+.explorer__list li.is-active .explorer__plus::after {
+  transform: rotate(0deg);
+}
+
+.explorer__text {
+  overflow: hidden;
+}
+
+.explorer__text p {
+  padding: 0 0 20px 36px;
+  max-width: 46ch;
+  color: var(--muted);
+}
+
+.community {
+  margin-top: clamp(80px, 13vh, 160px);
+}
+
+.community__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.community__head .mono {
+  color: var(--muted);
+}
+
+.community__note {
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: 15px;
+  text-align: right;
+}
+
+.community__row {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 32px);
+}
+
+.vignette {
+  display: block;
+}
+
+/* the paintings sit on white paper: multiply (on the animated element itself) lets them float on the page colour */
+.vignette {
+  mix-blend-mode: multiply;
+}
+
+.sustain__cta {
+  margin-top: clamp(48px, 8vh, 80px);
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .sustain__head {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sustain__facts {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .explorer {
+    grid-template-columns: 1fr;
+  }
+
+  .explorer__stage {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+    background: var(--bg);
+    padding-bottom: 8px;
+  }
+
+  .explorer__frame {
+    aspect-ratio: 16 / 10;
+  }
+
+  .community__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .community__note {
+    text-align: left;
+  }
+
+  .community__row {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 12px var(--gutter);
+  }
+
+  .community__row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vignette {
+    flex: 0 0 42vw;
+    scroll-snap-align: center;
+  }
+}

@@ -67,7 +67,7 @@ export default function Sketchbook() {
   return (
     <section className="sketchbook section" id="sketchbook">
       <header className="sketchbook__head">
-        <Eyebrow n="05">Sketchbook</Eyebrow>
+        <Eyebrow n="06">Sketchbook</Eyebrow>
         <h2 className="display">
           <SplitWords text="Thinking" /> <em><SplitWords text="by hand" delay={0.15} /></em>
         </h2>

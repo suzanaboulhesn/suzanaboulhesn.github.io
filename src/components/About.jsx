@@ -8,7 +8,7 @@ import {
   useTransform,
   useVelocity,
 } from 'motion/react'
-import { CAPABILITIES, EDUCATION, PROFILE, TOOLS } from '../data/projects'
+import { BIO, BIO_LEAD, CAPABILITIES, EDUCATION, PROFILE, TOOLS } from '../data/projects'
 import { wrap } from '../hooks'
 import { Eyebrow, Pic, Reveal, SplitWords } from './primitives'
 
@@ -70,26 +70,22 @@ export default function About() {
             transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
           >
             <motion.div style={{ y: imgY }} className="about__portrait-img">
-              <Pic image={PROFILE.portrait} sizes="(min-width: 900px) 36vw, 90vw" alt="Portrait of Suzan Aboul Hesn" />
+              <Pic image={PROFILE.portrait} sizes="(min-width: 900px) 36vw, 90vw" />
             </motion.div>
           </motion.div>
           <p className="about__caption mono">{PROFILE.city} · {PROFILE.degree}</p>
         </div>
 
         <div className="about__body">
-          <Eyebrow n="07">About</Eyebrow>
+          <Eyebrow n="08">About</Eyebrow>
           <h2 className="display">
             <SplitWords text="Hello, I’m" /> <em><SplitWords text="Suzan." delay={0.15} /></em>
           </h2>
           <Reveal as="p" className="about__lead">
-            I’m an architect based in Abu Dhabi, working between the stone villages of Mount Lebanon and the exhibition halls of the
-            UAE.
+            {BIO_LEAD}
           </Reveal>
           <Reveal as="p" delay={0.08}>
-            My residential work — villas, apartments and mountain cottages — is shaped by steep terrain and local stone. Alongside
-            it, I design booths, stages and ceremonies for Abu Dhabi institutions. I take each project from the first hand sketch
-            through plans and shop drawings to photoreal visualisation, and in 2024 I completed a Master’s in Sustainable
-            Architecture.
+            {BIO}
           </Reveal>
 
           <div className="about__cols">

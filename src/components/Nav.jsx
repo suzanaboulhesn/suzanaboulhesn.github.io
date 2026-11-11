@@ -8,6 +8,7 @@ import { EASE, EASE_IO, useUI } from '../ui'
 export const LINKS = [
   { id: 'residences', label: 'Residential' },
   { id: 'events', label: 'Events' },
+  { id: 'sustainable', label: 'Sustainable' },
   { id: 'sketchbook', label: 'Sketchbook' },
   { id: 'index', label: 'Index' },
   { id: 'about', label: 'About' },
